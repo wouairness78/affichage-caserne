@@ -4,7 +4,6 @@ create table if not exists public.settings (
   wind text default 'NE 18 km/h',
   forecast text default 'Nuageux',
   vigilance text default 'Jaune',
-  cis_info text default 'Informations internes du centre.',
   amicale text default 'Prochaine réunion : vendredi 19h30 au foyer.',
   twitter_text text default 'Dernier message du SDIS 78 à intégrer ici.',
   ticker text default 'CIS Saint-Arnoult-en-Yvelines — Bonne garde à tous.',
@@ -63,3 +62,6 @@ create policy "Admin settings" on public.settings for all using (auth.role() = '
 create policy "Admin vehicles" on public.vehicles for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "Admin monthly" on public.monthly_events for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "Admin daily" on public.daily_schedule for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
+
+ALTER TABLE settings ADD COLUMN IF NOT EXISTS cis_info text;

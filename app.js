@@ -47,11 +47,8 @@ async function loadWeather() {
     document.getElementById("temperature").textContent =
       `${Math.round(current.temperature_2m)}°C`;
 
-    const windSpeed = Math.round(current.wind_speed_10m);
-    const windDirection = getWindDirection(current.wind_direction_10m);
-
-    document.getElementById("wind").textContent =
-      `${windDirection} · ${windSpeed} km/h`;
+    document.getElementById("wind").innerHTML =
+      `${getWindDirection(current.wind_direction_10m)}<br>${Math.round(current.wind_speed_10m)} km/h`;
 
     document.getElementById("forecast").textContent =
       getWeatherLabel(current.weather_code);
@@ -63,24 +60,14 @@ async function loadWeather() {
 }
 
 function getWindDirection(degrees) {
-
-  if (degrees === null || degrees === undefined || isNaN(degrees)) {
-    return "--";
-  }
+  if (degrees === null || degrees === undefined || isNaN(degrees)) return "--";
 
   const directions = [
-    "Nord",
-    "Nord-Est",
-    "Est",
-    "Sud-Est",
-    "Sud",
-    "Sud-Ouest",
-    "Ouest",
-    "Nord-Ouest"
+    "Nord", "Nord-Est", "Est", "Sud-Est",
+    "Sud", "Sud-Ouest", "Ouest", "Nord-Ouest"
   ];
 
-  const index = Math.round(degrees / 45) % 8;
-
+  const index = Math.round(Number(degrees) / 45) % 8;
   return directions[index];
 }
 
@@ -119,8 +106,8 @@ async function loadData() {
 
     document.getElementById("amicaleText").textContent =
       settings.amicale || fallback.amicale;
-
-    document.getElementById("cisInfoText").textContent =
+	  
+	 document.getElementById("cisInfoText").textContent =
       settings.cis_info || "Informations internes du centre.";
 
     document.getElementById("ticker").textContent =
@@ -161,21 +148,17 @@ async function loadData() {
 
     document.getElementById("monthlyList").innerHTML =
       (monthlyEvents || []).map(event => {
-        const d = new Date(event.event_date);
-        const day = d.toLocaleDateString("fr-FR", { day: "2-digit" });
-        const month = d.toLocaleDateString("fr-FR", { month: "short" }).replace(".", "");
+        const eventDate = new Date(event.event_date);
+        const dateLabel = eventDate.toLocaleDateString("fr-FR", {
+          day: "2-digit",
+          month: "short"
+        }).replace(".", "");
 
         return `
           <li>
-            <small class="date-tile"><b>${day}</b><em>${month}</em></small>
-            <span>
-              <strong>${event.title}</strong>
-              <small>${event.type || "Info"}</small>
-            </span>
-            <strong>
-              ${event.event_time || ""}
-              ${event.location || ""}
-            </strong>
+            <small>${dateLabel}</small>
+            <span>${event.title}<em>${event.type || ""}</em></span>
+            <strong>${event.event_time || ""}<br>${event.location || ""}</strong>
           </li>
         `;
       }).join("");
@@ -227,12 +210,13 @@ const items = todayTasks.map(item => {
       ? "daily-time-all"
       : "daily-time-specific";
 
+  const dayLabel = item.weekdays === "all" ? "Tous les jours" : "Jour spécifique";
+
   return `
     <div class="daily-item">
-      <strong class="${taskClass}">
-        ${item.time_label}
-      </strong>
+      <strong class="${taskClass}">${item.time_label}</strong>
       <span>${item.title}</span>
+      <small>${dayLabel}</small>
     </div>
   `;
 }).join("");

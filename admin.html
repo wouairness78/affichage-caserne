@@ -89,11 +89,7 @@
 
         <div class="field">
           <label>Infos CIS</label>
-
-          <textarea
-            id="cisInfoInput"
-            rows="4"
-            placeholder="Texte affiché dans le bloc Infos CIS"></textarea>
+          <textarea id="cisInfoInput" rows="4"></textarea>
         </div>
 
         <div class="field">
@@ -112,6 +108,24 @@
             id="tickerInput"
             rows="3"></textarea>
         </div>
+		<div class="field">
+		  <label>Vigilance officielle</label>
+
+		  <select id="vigilanceLevel">
+			<option value="Vert">Vert</option>
+			<option value="Jaune">Jaune</option>
+			<option value="Orange">Orange</option>
+			<option value="Rouge">Rouge</option>
+		  </select>
+		</div>
+
+		<div class="field">
+		  <label>Type de vigilance</label>
+
+		  <input
+			id="vigilanceRisk"
+			placeholder="Orages / Vent / Pluie / Canicule...">
+		</div>
         <button class="btn" onclick="saveSettings()">
           Enregistrer
         </button>

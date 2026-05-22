@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>Affichage CIS Saint-Arnoult-en-Yvelines</title>
 
   <link rel="stylesheet" href="style.css">
@@ -34,18 +35,22 @@
         <h2>Météo</h2>
         <div class="weather-grid">
           <div class="weather-box">
+            <div class="weather-icon">🌡️</div>
             <strong id="temperature">--</strong>
             <span>Température</span>
           </div>
           <div class="weather-box">
+            <div class="weather-icon">🚩</div>
             <strong id="wind">--</strong>
             <span>Sens du vent</span>
           </div>
           <div class="weather-box">
+            <div class="weather-icon">🌤️</div>
             <strong id="forecast">--</strong>
             <span>Prévision</span>
           </div>
           <div class="weather-box">
+            <div class="weather-icon">⚠️</div>
             <strong class="status-warning" id="vigilance">--</strong>
             <span>Vigilance</span>
           </div>
@@ -75,28 +80,37 @@
 
 		  <div class="social-left">
 
-			<div class="cis-info">
+			<div class="info-line cis-info">
+              <div class="info-icon">📢</div>
+              <div class="info-content">
 			  <span class="tag">Infos CIS</span>
 
 			  <p id="cisInfoText">
 				Informations internes du centre.
 			  </p>
+              </div>
 			</div>
 
-			<div class="amicale">
+			<div class="info-line amicale">
+              <div class="info-icon">👥</div>
+              <div class="info-content">
 			  <span class="tag">Amicale</span>
 
 			  <p id="amicaleText">
 				Informations de l’amicale.
 			  </p>
+              </div>
 			</div>
 
-			<div class="birthday-box">
+			<div class="info-line birthday-box">
+              <div class="info-icon">🎂</div>
+              <div class="info-content">
 			  <span class="tag">Anniversaires</span>
 
 			  <p id="birthdayText">
 				Aucun anniversaire à venir.
 			  </p>
+              </div>
 			</div>
 
 		  </div>
@@ -106,7 +120,10 @@
 		  </div>
 
 		  <div class="twitter">
-			<span class="tag">SDIS 78 - X / Twitter</span>
+            <div class="twitter-profile">
+			  <span class="tag twitter-tag">SDIS 78 - X / Twitter</span>
+              <strong>@sdis78</strong>
+            </div>
 			<p id="tweetText">--</p>
 		  </div>
 
