@@ -12,3 +12,5 @@ Correction effectuée :
 - Suppression de la prise en compte de la vigilance depuis la table settings.
 - La vigilance est maintenant uniquement gérée par loadVigilance(), via /.netlify/functions/vigilance.
 - Ajout de la classe couleur pour le niveau Jaune dans loadVigilance().
+
+- Ajout du sens du vent en direct dans le bloc météo : direction + vitesse.

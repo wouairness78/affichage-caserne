@@ -47,8 +47,11 @@ async function loadWeather() {
     document.getElementById("temperature").textContent =
       `${Math.round(current.temperature_2m)}°C`;
 
+    const windSpeed = Math.round(current.wind_speed_10m);
+    const windDirection = getWindDirection(current.wind_direction_10m);
+
     document.getElementById("wind").textContent =
-      `${Math.round(current.wind_speed_10m)} km/h`;
+      `${windDirection} · ${windSpeed} km/h`;
 
     document.getElementById("forecast").textContent =
       getWeatherLabel(current.weather_code);
@@ -57,6 +60,28 @@ async function loadWeather() {
   } catch (error) {
     console.error("Erreur météo :", error);
   }
+}
+
+function getWindDirection(degrees) {
+
+  if (degrees === null || degrees === undefined || isNaN(degrees)) {
+    return "--";
+  }
+
+  const directions = [
+    "Nord",
+    "Nord-Est",
+    "Est",
+    "Sud-Est",
+    "Sud",
+    "Sud-Ouest",
+    "Ouest",
+    "Nord-Ouest"
+  ];
+
+  const index = Math.round(degrees / 45) % 8;
+
+  return directions[index];
 }
 
 function getWeatherLabel(code) {
