@@ -108,7 +108,6 @@ async function loadAdmin() {
     .single();
 
   if (settings) {
-    document.getElementById("cisInfoInput").value = settings.cis_info || "";
     document.getElementById("amicaleInput").value = settings.amicale || "";
     document.getElementById("tickerInput").value = settings.ticker || "";
   }
@@ -265,9 +264,6 @@ const dayLabel =
 async function saveSettings() {
 
   const update = {
-
-    cis_info:
-      document.getElementById("cisInfoInput").value,
 
     amicale:
       document.getElementById("amicaleInput").value,

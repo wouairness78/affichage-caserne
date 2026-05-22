@@ -119,9 +119,9 @@ async function loadData() {
 
     document.getElementById("amicaleText").textContent =
       settings.amicale || fallback.amicale;
-
-    document.getElementById("cisInfoText").textContent =
-      settings.cis_info || "Informations internes du centre.";
+	  
+	 document.getElementById("cisInfoText").textContent =
+  "Informations internes du centre.";
 
     document.getElementById("ticker").textContent =
       settings.ticker || fallback.ticker;
@@ -160,25 +160,17 @@ async function loadData() {
       .order("event_date");
 
     document.getElementById("monthlyList").innerHTML =
-      (monthlyEvents || []).map(event => {
-        const d = new Date(event.event_date);
-        const day = d.toLocaleDateString("fr-FR", { day: "2-digit" });
-        const month = d.toLocaleDateString("fr-FR", { month: "short" }).replace(".", "");
-
-        return `
-          <li>
-            <small class="date-tile"><b>${day}</b><em>${month}</em></small>
-            <span>
-              <strong>${event.title}</strong>
-              <small>${event.type || "Info"}</small>
-            </span>
-            <strong>
-              ${event.event_time || ""}
-              ${event.location || ""}
-            </strong>
-          </li>
-        `;
-      }).join("");
+      (monthlyEvents || []).map(event => `
+        <li>
+          <small>${event.type}</small>
+          <span>${event.title}</span>
+          <strong>
+            ${new Date(event.event_date).toLocaleDateString("fr-FR")}
+            ${event.event_time || ""}
+            ${event.location || ""}
+          </strong>
+        </li>
+      `).join("");
 
     const { data: dailySchedule } = await supabaseClient
       .from("daily_schedule")

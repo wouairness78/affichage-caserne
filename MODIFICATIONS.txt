@@ -1,10 +1,6 @@
-Rendu premium ajouté :
-- nouvelle mise en page TV proche du rendu demandé ;
-- météo en 4 blocs horizontaux ;
-- planning mensuel avec tuiles de date ;
-- planning journalier placé sous météo/planning ;
-- véhicules en colonne à droite avec pastilles ;
-- Vie de la caserne en 50/50 : textes à gauche, photo à droite ;
-- bloc SDIS 78 / Twitter intégré en bas du cadre ;
-- ajout du champ Infos CIS dans l’administration ;
-- colonne Supabase cis_info ajoutée au schema.
+Modifications :
+- Zone Infos CIS / Amicale / Anniversaires élargie vers la photo.
+- Photo légèrement réduite pour laisser plus de place au texte.
+- Texte des zones augmenté et plus lisible.
+
+Fichier modifié : style.css
