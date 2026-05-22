@@ -29,36 +29,9 @@ function updateClock() {
     });
 }
 
-async function loadWeather() {
-  try {
-
-    // Saint-Arnoult-en-Yvelines
-    const lat = 48.571;
-    const lon = 1.939;
-
-    const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m`
-    );
-
-    const data = await response.json();
-
-    const current = data.current;
-
-    document.getElementById("temperature").textContent =
-      `${Math.round(current.temperature_2m)}°C`;
-
-    document.getElementById("wind").innerHTML =
-      `${getWindDirection(current.wind_direction_10m)}<br>${Math.round(current.wind_speed_10m)} km/h`;
-
-    document.getElementById("forecast").textContent =
-      getWeatherLabel(current.weather_code);
-
-
-  } catch (error) {
-    console.error("Erreur météo :", error);
-  }
-}
-
+// Toute la météo affichée vient uniquement de la fonction Netlify vigilance.js
+// Cette fonction interroge Météo Concept avec le code INSEE 78537
+// correspondant à Saint-Arnoult-en-Yvelines.
 function getWindDirection(degrees) {
   if (degrees === null || degrees === undefined || isNaN(degrees)) return "--";
 
@@ -72,24 +45,32 @@ function getWindDirection(degrees) {
 }
 
 function getWeatherLabel(code) {
+  const labels = {
+    0: "Soleil",
+    1: "Peu nuageux",
+    2: "Ciel voilé",
+    3: "Nuageux",
+    4: "Très nuageux",
+    5: "Couvert",
+    6: "Brouillard",
+    7: "Brouillard givrant",
+    10: "Pluie faible",
+    11: "Pluie modérée",
+    12: "Pluie forte",
+    20: "Neige faible",
+    21: "Neige modérée",
+    22: "Neige forte",
+    30: "Pluie et neige",
+    40: "Averses",
+    41: "Averses",
+    42: "Averses fortes",
+    60: "Orage",
+    61: "Orage",
+    62: "Orage fort",
+    100: "Orages"
+  };
 
-  if (code === 0) return "Soleil";
-  if (code <= 3) return "Nuageux";
-  if (code <= 48) return "Brouillard";
-  if (code <= 67) return "Pluie";
-  if (code <= 77) return "Neige";
-  if (code <= 99) return "Orage";
-
-  return "Inconnu";
-}
-
-function getVigilance(wind) {
-
-  if (wind >= 90) return "Rouge";
-  if (wind >= 70) return "Orange";
-  if (wind >= 50) return "Jaune";
-
-  return "Vert";
+  return labels[Number(code)] || "Prévision";
 }
 
 async function loadData() {
@@ -409,39 +390,68 @@ async function loadVigilance() {
   try {
 
     const response =
-      await fetch("/.netlify/functions/vigilance");
+      await fetch("/.netlify/functions/vigilance", { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error("Réponse météo invalide");
+    }
 
     const data = await response.json();
 
-    console.log("VIGILANCE :", data);
+    console.log("MÉTÉO SAINT-ARNOULT :", data);
 
-    const vigilance =
-      data.vigilance || "Vert";
+    const temperature = document.getElementById("temperature");
+    const wind = document.getElementById("wind");
+    const forecast = document.getElementById("forecast");
+    const vigilanceElement = document.getElementById("vigilance");
 
-    const vigilanceElement =
-      document.getElementById("vigilance");
+    if (temperature) {
+      temperature.textContent =
+        data.temperature !== undefined && data.temperature !== null
+          ? `${Math.round(data.temperature)}°C`
+          : "--";
+    }
 
-    vigilanceElement.textContent =
-      vigilance;
+    if (wind) {
+      const direction = data.wind_direction_label || getWindDirection(data.wind_direction);
+      const speed =
+        data.wind !== undefined && data.wind !== null
+          ? `${Math.round(data.wind)} km/h`
+          : "--";
 
-    vigilanceElement.className = "";
+      wind.innerHTML = `${direction}<br>${speed}`;
+    }
 
-    if (vigilance === "Vert")
-      vigilanceElement.classList.add("vigilance-green");
+    if (forecast) {
+      forecast.textContent =
+        data.weather_label || getWeatherLabel(data.weather);
+    }
 
-    if (vigilance === "Jaune")
-      vigilanceElement.classList.add("vigilance-yellow");
+    const vigilance = data.vigilance || "Vert";
 
-    if (vigilance === "Orange")
-      vigilanceElement.classList.add("vigilance-orange");
+    if (vigilanceElement) {
+      vigilanceElement.textContent =
+        data.risk ? `${vigilance} ${data.risk}` : vigilance;
 
-    if (vigilance === "Rouge")
-      vigilanceElement.classList.add("vigilance-red");
+      vigilanceElement.className = "";
+
+      if (vigilance === "Vert")
+        vigilanceElement.classList.add("vigilance-green");
+
+      if (vigilance === "Jaune")
+        vigilanceElement.classList.add("vigilance-yellow");
+
+      if (vigilance === "Orange")
+        vigilanceElement.classList.add("vigilance-orange");
+
+      if (vigilance === "Rouge")
+        vigilanceElement.classList.add("vigilance-red");
+    }
 
   } catch (error) {
 
     console.error(
-      "Erreur vigilance :",
+      "Erreur météo/vigilance :",
       error
     );
 
@@ -455,12 +465,10 @@ loadVigilance();
 
 setInterval(loadVigilance, 1800000);
 setInterval(loadTwitterFeed, 300000);
-loadWeather();
 loadData();
 loadPhotos();
 setInterval(loadPhotos, 60000);
 setInterval(rotatePhotos, 10000);
-setInterval(loadWeather, 300000);
 setInterval(loadData, 30000);
 loadBirthdays();
 setInterval(loadBirthdays, 600000);
