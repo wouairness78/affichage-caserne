@@ -110,8 +110,6 @@ async function loadAdmin() {
   if (settings) {
     document.getElementById("amicaleInput").value = settings.amicale || "";
     document.getElementById("tickerInput").value = settings.ticker || "";
-	document.getElementById("cisInfoInput").value =
-  settings.cis_info || "";
   }
 
   const { data: vehicles } = await supabaseClient
@@ -269,8 +267,7 @@ async function saveSettings() {
 
     amicale:
       document.getElementById("amicaleInput").value,
-cis_info:
-  document.getElementById("cisInfoInput").value,
+
     ticker:
       document.getElementById("tickerInput").value,
 updated_at:

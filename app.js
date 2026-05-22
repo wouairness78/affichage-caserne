@@ -121,7 +121,7 @@ async function loadData() {
       settings.amicale || fallback.amicale;
 	  
 	 document.getElementById("cisInfoText").textContent =
-  settings.cis_info || "Informations internes du centre.";
+  "Informations internes du centre.";
 
     document.getElementById("ticker").textContent =
       settings.ticker || fallback.ticker;

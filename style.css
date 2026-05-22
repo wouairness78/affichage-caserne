@@ -269,7 +269,9 @@ ul { list-style: none; }
 .cis-info,
 .amicale,
 .birthday-box {
-  min-height: 70px;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
 }
 
 .cis-info,
@@ -291,7 +293,7 @@ ul { list-style: none; }
 
   padding: 0;
 
-  min-height: 260px;
+  min-height: 220px;
 
 background: transparent;
 }
@@ -357,14 +359,15 @@ background: transparent;
   line-height: 1.35;
 }
 .twitter {
-  grid-column: 1 / span 2;
-  min-height: 90px;
-
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-height: 0;
+  height: 76px;
+  overflow: hidden;
   background: #0f1419;
   border: 1px solid #2f3336;
   border-radius: 16px;
-
-  padding: 14px 16px;
+  padding: 10px 16px;
 }
 
 .twitter .tag {
@@ -374,9 +377,10 @@ background: transparent;
 
 .twitter p {
   color: #e7e9ea;
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.25;
   font-weight: 500;
+  margin: 0;
 }
 
 .twitter p::before {
@@ -406,6 +410,21 @@ background: transparent;
   border-radius: 999px;
   font-size: 12px;
   margin-bottom: 8px;
+}
+
+.cis-info,
+.amicale,
+.birthday-box {
+  min-height: 86px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cis-info p,
+.amicale p,
+.birthday-box p {
+  font-size: 17px;
+  line-height: 1.45;
 }
 
 footer {
@@ -550,19 +569,19 @@ hr {
 }
 .social-layout {
   display: grid;
-
-  grid-template-columns: 0.7fr 1.3fr;
-  grid-template-rows: 1fr auto;
-
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(0, 1fr) 76px;
   gap: 12px;
-
   height: calc(100% - 34px);
+  min-height: 0;
 }
 
 .social-left {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 
@@ -608,29 +627,19 @@ hr {
   }
 
 .social-layout {
-  display: grid;
-
-  grid-template-columns: 0.7fr 1.3fr;
-  grid-template-rows: 1fr auto;
-
-  gap: 12px;
-
-  height: calc(100% - 34px);
-}
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    height: auto;
+  }
 
 
 
  .twitter {
-  grid-column: 1 / span 2;
-
-  min-height: 120px;
-
-  background: #0f1419;
-  border: 1px solid #2f3336;
-  border-radius: 16px;
-
-  padding: 16px 16px 34px 16px;
-}
+    grid-column: 1;
+    height: auto;
+    min-height: 90px;
+    padding: 14px 16px;
+  }
 .twitter p {
   margin-bottom: 18px;
 }
