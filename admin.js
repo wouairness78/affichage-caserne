@@ -110,11 +110,6 @@ async function loadAdmin() {
   if (settings) {
     document.getElementById("amicaleInput").value = settings.amicale || "";
     document.getElementById("tickerInput").value = settings.ticker || "";
-	document.getElementById("vigilanceLevel").value =
-  settings.vigilance_level || "Vert";
-
-document.getElementById("vigilanceRisk").value =
-  settings.vigilance_risk || "";
   }
 
   const { data: vehicles } = await supabaseClient
@@ -275,14 +270,7 @@ async function saveSettings() {
 
     ticker:
       document.getElementById("tickerInput").value,
-
-    vigilance_level:
-      document.getElementById("vigilanceLevel").value,
-
-    vigilance_risk:
-      document.getElementById("vigilanceRisk").value,
-
-    updated_at:
+updated_at:
       new Date().toISOString()
 
   };

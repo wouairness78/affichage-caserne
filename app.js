@@ -100,33 +100,6 @@ async function loadData() {
 
     document.getElementById("ticker").textContent =
       settings.ticker || fallback.ticker;
-	const vigilance =
-	  settings.vigilance_level || "Vert";
-
-	const risk =
-	  settings.vigilance_risk || "";
-
-	const vigilanceElement =
-	  document.getElementById("vigilance");
-
-	vigilanceElement.textContent =
-	  risk
-		? `${vigilance} - ${risk}`
-		: vigilance;
-
-	vigilanceElement.className = "";
-
-	if (vigilance === "Vert")
-	  vigilanceElement.classList.add("vigilance-green");
-
-	if (vigilance === "Jaune")
-	  vigilanceElement.classList.add("vigilance-yellow");
-
-	if (vigilance === "Orange")
-	  vigilanceElement.classList.add("vigilance-orange");
-
-	if (vigilance === "Rouge")
-	  vigilanceElement.classList.add("vigilance-red");
 		const { data: vehicles } = await supabaseClient
 	  .from("vehicles")
 	  .select("*")
@@ -438,6 +411,9 @@ async function loadVigilance() {
 
     if (vigilance === "Vert")
       vigilanceElement.classList.add("vigilance-green");
+
+    if (vigilance === "Jaune")
+      vigilanceElement.classList.add("vigilance-yellow");
 
     if (vigilance === "Orange")
       vigilanceElement.classList.add("vigilance-orange");

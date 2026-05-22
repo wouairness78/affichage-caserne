@@ -1,0 +1,14 @@
+Correction effectuée :
+
+1. admin.html
+- Suppression du champ « Vigilance officielle ».
+- Suppression du champ « Type de vigilance ».
+
+2. admin.js
+- Suppression du chargement des champs vigilanceLevel / vigilanceRisk.
+- Suppression de l’enregistrement vigilance_level / vigilance_risk dans saveSettings().
+
+3. app.js
+- Suppression de la prise en compte de la vigilance depuis la table settings.
+- La vigilance est maintenant uniquement gérée par loadVigilance(), via /.netlify/functions/vigilance.
+- Ajout de la classe couleur pour le niveau Jaune dans loadVigilance().
