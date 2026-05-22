@@ -1,0 +1,9 @@
+{
+  "name": "affichage-caserne",
+  "version": "1.0.0",
+  "description": "Affichage dynamique CIS Saint-Arnoult-en-Yvelines",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "dependencies": {}
+}
