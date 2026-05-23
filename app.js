@@ -202,8 +202,28 @@ const items = todayTasks.map(item => {
   `;
 }).join("");
 
-document.getElementById("dailyList").innerHTML =
-  todayTasks.length > 4 ? items + items : items;
+const dailyList = document.getElementById("dailyList");
+const dailyScroll = dailyList ? dailyList.closest(".daily-scroll") : null;
+
+if (dailyList) {
+  dailyList.classList.remove("scroll-active");
+  dailyList.innerHTML = items;
+
+  requestAnimationFrame(() => {
+    if (!dailyScroll) return;
+
+    const mustScroll =
+      dailyList.scrollHeight > dailyScroll.clientHeight + 6;
+
+    if (mustScroll) {
+      dailyList.innerHTML = items + items;
+      dailyList.classList.add("scroll-active");
+    } else {
+      dailyList.classList.remove("scroll-active");
+      dailyList.innerHTML = items;
+    }
+  });
+}
 
   } catch (error) {
 

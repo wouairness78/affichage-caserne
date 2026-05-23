@@ -1,0 +1,7 @@
+Corrections effectuées :
+- Le planning journalier défile uniquement si le contenu dépasse la hauteur disponible du cadre.
+- Si les tâches tiennent dans le cadre, elles restent fixes.
+- La météo est restructurée avec une taille de texte réduite pour éviter les débordements.
+- Les photos restent affichées entièrement dans leur cadre avec object-fit: contain.
+- Le cadre État des véhicules occupe toute la hauteur disponible à droite.
+- Les lignes véhicules s'étirent proprement pour remplir la colonne sans vide inutile.
