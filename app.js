@@ -463,7 +463,7 @@ setInterval(updateClock, 1000);
 loadTwitterFeed();
 loadVigilance();
 
-setInterval(loadVigilance, 1800000);
+setInterval(loadVigilance, 600000);
 setInterval(loadTwitterFeed, 300000);
 loadData();
 loadPhotos();
