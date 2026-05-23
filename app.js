@@ -127,22 +127,37 @@ async function loadData() {
       .select("*")
       .order("event_date");
 
-    document.getElementById("monthlyList").innerHTML =
-      (monthlyEvents || []).map(event => {
-        const eventDate = new Date(event.event_date);
-        const dateLabel = eventDate.toLocaleDateString("fr-FR", {
-          day: "2-digit",
-          month: "short"
-        }).replace(".", "");
+    const monthlyList = document.getElementById("monthlyList");
 
-        return `
-          <li>
-            <small>${dateLabel}</small>
-            <span>${event.title}<em>${event.type || ""}</em></span>
-            <strong>${event.event_time || ""}<br>${event.location || ""}</strong>
-          </li>
-        `;
-      }).join("");
+    const monthlyItems = (monthlyEvents || []).map(event => {
+      const eventDate = new Date(event.event_date);
+      const dateLabel = eventDate.toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "short"
+      }).replace(".", "");
+
+      return `
+        <li>
+          <small>${dateLabel}</small>
+          <span>${event.title}<em>${event.type || ""}</em></span>
+          <strong>${event.event_time || ""}<br>${event.location || ""}</strong>
+        </li>
+      `;
+    }).join("");
+
+    monthlyList.classList.remove("scrolling");
+    monthlyList.innerHTML = monthlyItems;
+
+    requestAnimationFrame(() => {
+      const isOverflowing = monthlyList.scrollHeight > monthlyList.clientHeight + 8;
+
+      if (isOverflowing) {
+        monthlyList.innerHTML = monthlyItems + monthlyItems;
+        monthlyList.classList.add("scrolling");
+      } else {
+        monthlyList.classList.remove("scrolling");
+      }
+    });
 
     const { data: dailySchedule } = await supabaseClient
       .from("daily_schedule")
@@ -203,27 +218,19 @@ const items = todayTasks.map(item => {
 }).join("");
 
 const dailyList = document.getElementById("dailyList");
-const dailyScroll = dailyList ? dailyList.closest(".daily-scroll") : null;
+dailyList.classList.remove("scrolling");
+dailyList.innerHTML = items;
 
-if (dailyList) {
-  dailyList.classList.remove("scroll-active");
-  dailyList.innerHTML = items;
+requestAnimationFrame(() => {
+  const dailyOverflowing = dailyList.scrollHeight > dailyList.parentElement.clientHeight + 8;
 
-  requestAnimationFrame(() => {
-    if (!dailyScroll) return;
-
-    const mustScroll =
-      dailyList.scrollHeight > dailyScroll.clientHeight + 6;
-
-    if (mustScroll) {
-      dailyList.innerHTML = items + items;
-      dailyList.classList.add("scroll-active");
-    } else {
-      dailyList.classList.remove("scroll-active");
-      dailyList.innerHTML = items;
-    }
-  });
-}
+  if (dailyOverflowing) {
+    dailyList.innerHTML = items + items;
+    dailyList.classList.add("scrolling");
+  } else {
+    dailyList.classList.remove("scrolling");
+  }
+});
 
   } catch (error) {
 
@@ -433,13 +440,28 @@ async function loadVigilance() {
     }
 
     if (wind) {
-      const direction = data.wind_direction_label || getWindDirection(data.wind_direction);
+      const rawDirection =
+        data.wind_direction ??
+        data.wind_dir ??
+        data.dirwind10m ??
+        data.wind10m_direction ??
+        data.direction;
+
+      const direction =
+        data.wind_direction_label ||
+        data.wind_dir_label ||
+        data.direction_label ||
+        getWindDirection(rawDirection);
+
       const speed =
         data.wind !== undefined && data.wind !== null
           ? `${Math.round(data.wind)} km/h`
           : "--";
 
-      wind.innerHTML = `${direction}<br>${speed}`;
+      wind.innerHTML = `
+        <span class="wind-direction">${direction}</span>
+        <span class="wind-speed">${speed}</span>
+      `;
     }
 
     if (forecast) {
