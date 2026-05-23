@@ -149,13 +149,16 @@ async function loadData() {
     monthlyList.innerHTML = monthlyItems;
 
     requestAnimationFrame(() => {
-      const isOverflowing = monthlyList.scrollHeight > monthlyList.clientHeight + 8;
+      const firstItem = monthlyList.querySelector("li");
+      if (!firstItem) return;
 
-      if (isOverflowing) {
+      const itemHeight = firstItem.getBoundingClientRect().height + 9;
+      const visibleCapacity = Math.floor(monthlyList.clientHeight / itemHeight);
+      const mustScroll = (monthlyEvents || []).length > visibleCapacity;
+
+      if (mustScroll) {
         monthlyList.innerHTML = monthlyItems + monthlyItems;
         monthlyList.classList.add("scrolling");
-      } else {
-        monthlyList.classList.remove("scrolling");
       }
     });
 
@@ -222,13 +225,16 @@ dailyList.classList.remove("scrolling");
 dailyList.innerHTML = items;
 
 requestAnimationFrame(() => {
-  const dailyOverflowing = dailyList.scrollHeight > dailyList.parentElement.clientHeight + 8;
+  const firstItem = dailyList.querySelector(".daily-item");
+  if (!firstItem) return;
 
-  if (dailyOverflowing) {
+  const itemHeight = firstItem.getBoundingClientRect().height + 7;
+  const visibleCapacity = Math.floor(dailyList.parentElement.clientHeight / itemHeight);
+  const mustScroll = todayTasks.length > visibleCapacity;
+
+  if (mustScroll) {
     dailyList.innerHTML = items + items;
     dailyList.classList.add("scrolling");
-  } else {
-    dailyList.classList.remove("scrolling");
   }
 });
 
@@ -440,28 +446,13 @@ async function loadVigilance() {
     }
 
     if (wind) {
-      const rawDirection =
-        data.wind_direction ??
-        data.wind_dir ??
-        data.dirwind10m ??
-        data.wind10m_direction ??
-        data.direction;
-
-      const direction =
-        data.wind_direction_label ||
-        data.wind_dir_label ||
-        data.direction_label ||
-        getWindDirection(rawDirection);
-
+      const direction = data.wind_direction_label || getWindDirection(data.wind_direction);
       const speed =
         data.wind !== undefined && data.wind !== null
           ? `${Math.round(data.wind)} km/h`
           : "--";
 
-      wind.innerHTML = `
-        <span class="wind-direction">${direction}</span>
-        <span class="wind-speed">${speed}</span>
-      `;
+      wind.innerHTML = `${direction}<br>${speed}`;
     }
 
     if (forecast) {

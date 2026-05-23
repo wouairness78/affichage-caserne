@@ -64,7 +64,14 @@ header {
 }
 .datetime { text-align: right; font-weight: 900; }
 .time { font-size: clamp(48px, 4vw, 70px); line-height: 0.92; text-shadow: 0 3px 6px #000; }
-.date { color: #ffeb00; font-size: clamp(16px, 1.2vw, 22px); margin-top: 14px; font-weight: 900; text-transform: capitalize; }
+.date {
+  color: #ffeb00;
+  font-size: clamp(16px, 1.2vw, 22px);
+  margin-top: 6px;
+  font-weight: 900;
+  text-transform: capitalize;
+  transform: translateY(-6px);
+}
 
 main.tv {
   display: grid;
@@ -96,7 +103,7 @@ main.tv {
 }
 
 .weather { grid-column: 1; grid-row: 1; }
-.monthly { grid-column: 2; grid-row: 1; }
+.monthly { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; }
 .daily { grid-column: 3; grid-row: 1; }
 .vehicles { grid-column: 4; grid-row: 1 / span 3; }
 .social { grid-column: 1 / span 3; grid-row: 2 / span 2; border-color: #e0bd00; padding: 16px 18px 14px; }
@@ -112,28 +119,27 @@ main.tv {
 .weather-box {
   background: linear-gradient(180deg, rgba(35,47,61,.88), rgba(17,25,35,.88));
   border-radius: 10px;
-  padding: 7px 9px;
+  padding: 8px 10px;
   display: grid;
-  grid-template-columns: 38px 1fr;
+  grid-template-columns: 42px 1fr;
   grid-template-rows: 1fr auto;
-  column-gap: 9px;
+  column-gap: 10px;
   align-items: center;
   text-align: left;
-  min-width: 0;
   min-height: 0;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
 }
 .weather-icon {
   grid-row: 1 / span 2;
-  font-size: clamp(22px, 1.6vw, 30px);
+  font-size: clamp(25px, 1.9vw, 34px);
   line-height: 1;
   justify-self: center;
   filter: drop-shadow(0 3px 3px rgba(0,0,0,.75));
 }
 .weather-box strong {
-  font-size: clamp(18px, 1.32vw, 26px);
+  font-size: clamp(20px, 1.55vw, 30px);
   font-weight: 900;
-  line-height: 1.03;
+  line-height: 1.05;
   white-space: normal;
   overflow-wrap: anywhere;
 }
@@ -143,33 +149,26 @@ main.tv {
   font-size: clamp(11px, .78vw, 15px);
 }
 
-.wind-direction,
-.wind-speed {
-  display: block;
-  line-height: 1.04;
-}
-
-.wind-speed {
-  margin-top: 2px;
-  font-size: .88em;
-}
-
 ul { list-style: none; }
 .list {
   display: grid;
   gap: 9px;
-  height: calc(100% - 40px);
+  height: auto;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
-  align-content: start;
+  position: relative;
+  z-index: 1;
 }
-
-.list.scrolling {
-  animation: monthlyScroll 32s linear infinite;
+.monthly h2 {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(180deg, rgba(16, 27, 39, 0.96), rgba(8, 15, 23, 0.96));
+  padding-bottom: 4px;
 }
-
-@keyframes monthlyScroll {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
+.monthly .list.scrolling {
+  animation: verticalScroll 30s linear infinite;
 }
 .list li {
   display: grid;
@@ -223,7 +222,7 @@ ul { list-style: none; }
 .vehicle-maintenance span::before { background:#ffb000; box-shadow:0 0 9px rgba(255,176,0,.6); }
 
 .daily-scroll { height: calc(100% - 40px); overflow: hidden; position: relative; }
-.daily-inner { display: grid; gap: 7px; }
+.daily-inner { display: grid; gap: 7px; animation: none; }
 .daily-inner.scrolling { animation: verticalScroll 28s linear infinite; }
 .daily-item {
   display: grid;
