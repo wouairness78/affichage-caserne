@@ -131,7 +131,9 @@ async function loadData() {
 
     const monthlyList = document.getElementById("monthlyList");
 
-    const monthlyItems = (monthlyEvents || []).map(event => {
+    monthlyList.classList.remove("scrolling");
+
+    monthlyList.innerHTML = (monthlyEvents || []).map(event => {
       const eventDate = new Date(event.event_date);
       const dateLabel = eventDate.toLocaleDateString("fr-FR", {
         day: "2-digit",
@@ -146,10 +148,6 @@ async function loadData() {
         </li>
       `;
     }).join("");
-
-    monthlyList.classList.remove("scrolling");
-    monthlyList.innerHTML =
-      monthlyItems || `<li><span>Aucun événement à venir</span></li>`;
 
     const { data: dailySchedule } = await supabaseClient
       .from("daily_schedule")
