@@ -125,7 +125,9 @@ async function loadData() {
     const { data: monthlyEvents } = await supabaseClient
       .from("monthly_events")
       .select("*")
-      .order("event_date");
+      .gte("event_date", new Date().toISOString().slice(0, 10))
+      .order("event_date", { ascending: true })
+      .limit(3);
 
     const monthlyList = document.getElementById("monthlyList");
 
@@ -146,21 +148,8 @@ async function loadData() {
     }).join("");
 
     monthlyList.classList.remove("scrolling");
-    monthlyList.innerHTML = monthlyItems;
-
-    requestAnimationFrame(() => {
-      const firstItem = monthlyList.querySelector("li");
-      if (!firstItem) return;
-
-      const itemHeight = firstItem.getBoundingClientRect().height + 9;
-      const visibleCapacity = Math.floor(monthlyList.clientHeight / itemHeight);
-      const mustScroll = (monthlyEvents || []).length > visibleCapacity;
-
-      if (mustScroll) {
-        monthlyList.innerHTML = monthlyItems + monthlyItems;
-        monthlyList.classList.add("scrolling");
-      }
-    });
+    monthlyList.innerHTML =
+      monthlyItems || `<li><span>Aucun événement à venir</span></li>`;
 
     const { data: dailySchedule } = await supabaseClient
       .from("daily_schedule")

@@ -162,15 +162,13 @@ ul { list-style: none; }
   margin-top: 8px;
   height: calc(100% - 55px);
   overflow: hidden;
+  animation: none !important;
 }
 .monthly h2 {
   position: relative;
   z-index: 5;
   background: #09131d;
   padding-bottom: 8px;
-}
-.monthly .list.scrolling {
-  animation: verticalScroll 30s linear infinite;
 }
 .list li {
   display: grid;

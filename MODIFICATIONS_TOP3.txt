@@ -1,0 +1,1 @@
+Planning mensuel : défilement supprimé. Affichage fixe des 3 prochains événements à venir, triés du plus proche au plus lointain.
