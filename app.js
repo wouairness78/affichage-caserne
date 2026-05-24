@@ -189,10 +189,6 @@ const todayTasks = (dailySchedule || [])
   })
   .sort((a, b) => parseTimeToMinutes(a.time_label) - parseTimeToMinutes(b.time_label));
 
-const upcomingTask = todayTasks.find(item =>
-  parseTimeToMinutes(item.time_label) >= currentMinutes
-) || todayTasks[0];
-
 const items = todayTasks.map(item => {
 
   const taskClass =
@@ -202,11 +198,8 @@ const items = todayTasks.map(item => {
 
   const dayLabel = item.weekdays === "all" ? "Tous les jours" : "Jour spécifique";
 
-  const isNextUpcoming =
-    upcomingTask && String(item.id) === String(upcomingTask.id);
-
   return `
-    <div class="daily-item ${isNextUpcoming ? "daily-item-next" : ""}">
+    <div class="daily-item">
       <strong class="${taskClass}">${item.time_label}</strong>
       <span>${item.title}</span>
       <small>${dayLabel}</small>
@@ -222,20 +215,12 @@ requestAnimationFrame(() => {
   const firstItem = dailyList.querySelector(".daily-item");
   if (!firstItem) return;
 
-  dailyList.style.setProperty(
-    "--daily-visible-height",
-    `${dailyList.parentElement.clientHeight}px`
-  );
-
   const itemHeight = firstItem.getBoundingClientRect().height + 7;
   const visibleCapacity = Math.floor(dailyList.parentElement.clientHeight / itemHeight);
   const mustScroll = todayTasks.length > visibleCapacity;
 
   if (mustScroll) {
-    dailyList.innerHTML =
-      items +
-      `<div class="daily-scroll-return">↻ Retour en haut de la liste</div>`;
-
+    dailyList.innerHTML = items + items;
     dailyList.classList.add("scrolling");
   }
 });
