@@ -458,12 +458,18 @@ header {
 
 main.tv {
   display: grid;
-  grid-template-columns: 1.18fr 0.92fr 0.92fr 0.70fr;
 
-  /* haut plus grand */
+  /* cadres du haut plus larges */
+  grid-template-columns:
+    1.35fr
+    1.05fr
+    1.05fr
+    0.78fr;
+
+  /* première ligne beaucoup plus haute */
   grid-template-rows:
-    minmax(300px, 36vh)
-    minmax(180px, 22vh)
+    minmax(360px, 42vh)
+    minmax(130px, 16vh)
     1fr;
 
   gap: 12px;
@@ -471,13 +477,25 @@ main.tv {
   min-height: 0;
 }
 .social {
-  grid-column: 1 / span 3;
-  grid-row: 2 / span 2;
-
-  /* réduction du bloc */
-  max-height: 46vh;
+  max-height: 34vh;
+}
+.weather,
+.monthly,
+.daily {
+  height: 100%;
 }
 
+.weather-grid {
+  height: 100%;
+}
+
+.monthly .list {
+  height: 100%;
+}
+
+.daily-scroll {
+  height: 100%;
+}
 .card {
   min-height: 0;
   padding: clamp(10px, 1.55vh, 18px);
