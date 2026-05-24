@@ -396,6 +396,271 @@ hr { border:none; border-top:1px solid #334155; margin:14px 0; }
 .weekdays-box { display:flex; flex-wrap:wrap; gap:8px; color:#bfd0e3; }
 .weekdays-box label { background:#0f1720; border:1px solid #334155; border-radius:8px; padding:8px 10px; }
 
+
+
+/* =========================================================
+   ADAPTATION RESPONSIVE TV
+   Garde la même structure en 4 colonnes, mais les hauteurs
+   se recalculent selon l'écran pour éviter les cadres coupés.
+   ========================================================= */
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.screen {
+  height: 100dvh;
+  min-height: 0;
+  grid-template-rows: clamp(82px, 11vh, 118px) minmax(0, 1fr) clamp(36px, 4.4vh, 48px);
+  overflow: hidden;
+}
+
+header {
+  grid-template-columns: clamp(76px, 6.2vw, 118px) minmax(0, 1fr) clamp(210px, 18vw, 330px);
+  gap: clamp(10px, 1.15vw, 22px);
+  padding: clamp(7px, 1.1vh, 12px) clamp(10px, 1.05vw, 20px);
+  border-bottom-width: clamp(3px, .45vh, 5px);
+  min-height: 0;
+}
+
+.logo {
+  width: clamp(62px, 7.7vh, 92px);
+  height: clamp(62px, 7.7vh, 92px);
+}
+
+.title {
+  min-width: 0;
+}
+
+.title h1 {
+  font-size: clamp(26px, 3.05vw, 56px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title p {
+  font-size: clamp(12px, 1.15vw, 22px);
+  margin-top: clamp(4px, 1vh, 12px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time {
+  font-size: clamp(36px, 4.1vw, 70px);
+}
+
+.date {
+  font-size: clamp(12px, 1.1vw, 22px);
+  transform: none;
+}
+
+main.tv {
+  min-height: 0;
+  height: 100%;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, .92fr) minmax(0, .92fr) minmax(230px, .70fr);
+  grid-template-rows: minmax(0, .88fr) minmax(0, .88fr) minmax(0, 1.10fr);
+  gap: clamp(8px, 1.1vh, 12px);
+  padding: clamp(8px, 1.45vh, 16px) clamp(10px, 1vw, 18px) clamp(7px, 1.1vh, 12px);
+}
+
+.card {
+  min-height: 0;
+  padding: clamp(10px, 1.55vh, 18px);
+  border-radius: clamp(10px, 1.3vh, 14px);
+}
+
+.card h2 {
+  font-size: clamp(16px, 1.35vw, 27px);
+  margin-bottom: clamp(8px, 1.3vh, 16px);
+}
+
+.weather-grid,
+.list,
+.vehicle-grid,
+.daily-scroll,
+.social-layout {
+  min-height: 0;
+}
+
+.weather-grid {
+  height: calc(100% - clamp(28px, 3.8vh, 44px));
+  gap: clamp(7px, 1vh, 10px);
+}
+
+.weather-box {
+  padding: clamp(5px, .9vh, 8px) clamp(7px, .8vw, 10px);
+  grid-template-columns: clamp(26px, 2.3vw, 34px) minmax(0, 1fr);
+}
+
+.weather-box strong {
+  font-size: clamp(14px, 1.2vw, 22px);
+}
+
+.weather-box span {
+  font-size: clamp(9px, .72vw, 13px);
+}
+
+.list {
+  height: calc(100% - clamp(30px, 4.1vh, 44px));
+  gap: clamp(5px, .75vh, 8px);
+}
+
+.list li {
+  min-height: 0;
+  height: 100%;
+  padding: clamp(5px, .8vh, 7px) clamp(7px, .75vw, 10px);
+  grid-template-columns: clamp(48px, 3.9vw, 68px) minmax(0, 1fr) auto;
+}
+
+.vehicle-grid {
+  height: calc(100% - clamp(28px, 4vh, 40px));
+  gap: clamp(7px, 1.25vh, 12px);
+  grid-auto-rows: minmax(0, 1fr);
+}
+
+.vehicle {
+  padding: clamp(4px, .75vh, 7px) clamp(7px, .7vw, 9px);
+  font-size: clamp(11px, .9vw, 18px);
+}
+
+.vehicle strong {
+  min-width: clamp(60px, 4.7vw, 88px);
+  padding: clamp(3px, .6vh, 5px) clamp(8px, .7vw, 13px);
+}
+
+.daily-scroll {
+  height: calc(100% - clamp(30px, 4.2vh, 40px));
+}
+
+.daily-inner {
+  gap: clamp(5px, .85vh, 7px);
+}
+
+.daily-item {
+  min-height: clamp(28px, 4.15vh, 42px);
+  grid-template-columns: clamp(58px, 4.2vw, 78px) minmax(0, 1fr) auto;
+  gap: clamp(6px, .75vw, 12px);
+  padding: clamp(5px, .85vh, 7px) clamp(7px, .75vw, 10px);
+  font-size: clamp(12px, .95vw, 18px);
+}
+
+.daily-item span,
+.daily-item small,
+.daily-item strong {
+  min-width: 0;
+}
+
+.daily-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.social {
+  min-height: 0;
+  padding: clamp(10px, 1.45vh, 16px) clamp(10px, 1vw, 18px) clamp(8px, 1.2vh, 14px);
+}
+
+.social-layout {
+  height: calc(100% - clamp(28px, 3.8vh, 38px));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.22fr);
+  grid-template-rows: minmax(0, 1fr) clamp(64px, 8.7vh, 94px);
+  gap: clamp(8px, 1.2vh, 14px);
+}
+
+.social-left {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: clamp(6px, .95vh, 10px);
+  overflow: hidden;
+}
+
+.info-line {
+  grid-template-columns: clamp(56px, 4.7vw, 88px) minmax(0, 1fr);
+  gap: clamp(7px, .75vw, 12px);
+  overflow: hidden;
+}
+
+.info-icon,
+.info-content {
+  min-height: 0;
+  height: 100%;
+}
+
+.info-icon {
+  font-size: clamp(22px, 2.15vw, 45px);
+}
+
+.info-content {
+  padding: clamp(7px, 1vh, 12px) clamp(8px, .8vw, 14px);
+}
+
+.tag {
+  font-size: clamp(10px, .7vw, 12px);
+  padding: clamp(3px, .45vh, 5px) clamp(7px, .55vw, 9px);
+  margin-bottom: clamp(4px, .75vh, 8px);
+}
+
+.cis-info p,
+.amicale p,
+.birthday-box p {
+  font-size: clamp(11px, .95vw, 19px);
+  line-height: 1.15;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.photo {
+  min-width: 0;
+}
+
+.twitter {
+  min-height: 0;
+  grid-template-columns: clamp(130px, 10.5vw, 190px) minmax(0, 1fr);
+  gap: clamp(9px, 1vw, 18px);
+  padding: clamp(6px, .95vh, 10px) clamp(10px, .85vw, 16px) !important;
+}
+
+.twitter-profile {
+  gap: clamp(4px, .75vh, 8px);
+  padding-right: clamp(8px, .85vw, 16px);
+}
+
+.twitter-profile strong {
+  font-size: clamp(14px, 1.1vw, 25px);
+}
+
+.twitter p {
+  min-width: 0;
+  font-size: clamp(12px, .95vw, 20px);
+  line-height: 1.16;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+footer {
+  min-height: 0;
+  border-top-width: clamp(3px, .45vh, 4px);
+}
+
+.ticker {
+  font-size: clamp(14px, 1.35vw, 28px);
+}
+
+/* Écrans 16/9 avec peu de hauteur : on garde la structure en 4 colonnes
+   et on compacte uniquement les espacements. */
+@media (max-height: 820px) and (min-width: 1101px) {
+  .card { padding: 10px 14px; }
+  .card h2 { margin-bottom: 8px; }
+  main.tv { gap: 8px; padding-top: 8px; padding-bottom: 7px; }
+  .weather-grid, .list, .vehicle-grid, .daily-inner, .social-layout, .social-left { gap: 7px; }
+  .twitter { grid-template-rows: minmax(0, 1fr); }
+}
+
 @media (max-width: 1100px) {
   body { overflow:auto; }
   .screen { height:auto; min-height:100vh; grid-template-rows:auto 1fr 54px; }
