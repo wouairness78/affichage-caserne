@@ -457,12 +457,25 @@ header {
 }
 
 main.tv {
+  display: grid;
+  grid-template-columns: 1.18fr 0.92fr 0.92fr 0.70fr;
+
+  /* haut plus grand */
+  grid-template-rows:
+    minmax(300px, 36vh)
+    minmax(180px, 22vh)
+    1fr;
+
+  gap: 12px;
+  padding: 16px 18px 12px 18px;
   min-height: 0;
-  height: 100%;
-  grid-template-columns: minmax(0, 1.18fr) minmax(0, .92fr) minmax(0, .92fr) minmax(230px, .70fr);
-  grid-template-rows: minmax(0, .88fr) minmax(0, .88fr) minmax(0, 1.10fr);
-  gap: clamp(8px, 1.1vh, 12px);
-  padding: clamp(8px, 1.45vh, 16px) clamp(10px, 1vw, 18px) clamp(7px, 1.1vh, 12px);
+}
+.social {
+  grid-column: 1 / span 3;
+  grid-row: 2 / span 2;
+
+  /* réduction du bloc */
+  max-height: 46vh;
 }
 
 .card {
