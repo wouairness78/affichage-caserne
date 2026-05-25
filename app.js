@@ -11,6 +11,30 @@ const fallback = {
   ticker: "CIS Saint-Arnoult-en-Yvelines — Bonne garde à tous."
 };
 
+
+function fitTextToBox(element, options = {}) {
+  if (!element) return;
+
+  const maxSize = options.maxSize || 19;
+  const minSize = options.minSize || 10;
+
+  element.style.fontSize = `${maxSize}px`;
+  element.style.lineHeight = "1.12";
+
+  let size = maxSize;
+
+  while (size > minSize && element.scrollHeight > element.clientHeight) {
+    size -= 1;
+    element.style.fontSize = `${size}px`;
+  }
+}
+
+function resizeSocialTexts() {
+  fitTextToBox(document.getElementById("cisInfoText"), { maxSize: 19, minSize: 10 });
+  fitTextToBox(document.getElementById("amicaleText"), { maxSize: 19, minSize: 10 });
+  fitTextToBox(document.getElementById("birthdayText"), { maxSize: 18, minSize: 10 });
+}
+
 function updateClock() {
   const now = new Date();
 
@@ -90,6 +114,8 @@ async function loadData() {
 	  
 	 document.getElementById("cisInfoText").textContent =
       settings.cis_info || "Informations internes du centre.";
+
+    requestAnimationFrame(resizeSocialTexts);
 
     document.getElementById("ticker").textContent =
       settings.ticker || fallback.ticker;
@@ -330,6 +356,7 @@ if (!birthdayText) return;
   if (upcoming) {
     birthdayText.textContent =
       `🎂 Prochain anniversaire : ${upcoming.firstname} ${upcoming.lastname || ""} aura ${upcoming.age} ans dans ${upcoming.diffDays} jour(s)`;
+    requestAnimationFrame(resizeSocialTexts);
   }
 }
 async function loadAlertMode() {
@@ -439,7 +466,10 @@ async function loadVigilance() {
           ? `${Math.round(data.wind)} km/h`
           : "--";
 
-      wind.innerHTML = `${direction}<br>${speed}`;
+      wind.innerHTML = `
+        <span class="wind-direction">${direction}</span>
+        <span class="wind-speed">${speed}</span>
+      `;
     }
 
     if (forecast) {

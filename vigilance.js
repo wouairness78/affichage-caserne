@@ -38,6 +38,7 @@ exports.handler = async function () {
         vigilance,
         temperature: today.tmax,
         wind: today.wind10m,
+        wind_direction: today.dirwind10m ?? today.wind_direction ?? today.winddir ?? null,
         weather: today.weather
       })
     };
