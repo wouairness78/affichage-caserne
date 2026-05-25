@@ -264,22 +264,21 @@ const dayLabel =
 
 async function saveSettings() {
 
+  const cisInfoInput = document.getElementById("cisInfoInput");
+  const amicaleInput = document.getElementById("amicaleInput");
+  const tickerInput = document.getElementById("tickerInput");
+
   const update = {
-
-    cis_info:
-      document.getElementById("cisInfoInput").value,
-
-    amicale:
-      document.getElementById("amicaleInput").value,
-
-    ticker:
-      document.getElementById("tickerInput").value,
-
-
-    updated_at:
-      new Date().toISOString()
-
+    cis_info: cisInfoInput ? cisInfoInput.value : "",
+    amicale: amicaleInput ? amicaleInput.value : "",
+    updated_at: new Date().toISOString()
   };
+
+  // Le bandeau défilant reste réservé administrateur.
+  // Un utilisateur simple ne modifie que Infos CIS et Amicale.
+  if (currentRole === "admin" && tickerInput) {
+    update.ticker = tickerInput.value;
+  }
 
   const { error } = await supabaseClient
     .from("settings")
@@ -287,9 +286,7 @@ async function saveSettings() {
     .eq("id", 1);
 
   if (error) {
-
     alert("Erreur : " + error.message);
-
     return;
   }
 

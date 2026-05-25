@@ -81,11 +81,11 @@
 
     <div class="grid-admin">
 
-      <!-- ADMIN ONLY -->
+      <!-- INFOS CIS / AMICALE : accessible aux utilisateurs connectés -->
 
-      <section class="form-card admin-only">
+      <section class="form-card settings-card">
 
-        <h2>Bandeau / Amicale</h2>
+        <h2>Infos CIS / Amicale</h2>
 
         <div class="field">
           <label>Infos CIS</label>
@@ -101,13 +101,15 @@
         </div>
 
 
-        <div class="field">
-          <label>Bandeau défilant</label>
+        <div class="field admin-only">
+          <label>Bandeau défilant <small class="muted-inline">(réservé administrateur)</small></label>
 
           <textarea
             id="tickerInput"
             rows="3"></textarea>
-        </div>        <button class="btn" onclick="saveSettings()">
+        </div>
+
+        <button class="btn" onclick="saveSettings()">
           Enregistrer
         </button>
 
