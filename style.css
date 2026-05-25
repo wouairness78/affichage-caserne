@@ -122,7 +122,7 @@ main.tv {
   height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1.18fr) minmax(0, .92fr) minmax(0, .92fr) minmax(225px, .72fr);
-  grid-template-rows: minmax(205px, 33%) minmax(0, 1fr);
+  grid-template-rows: minmax(170px, 26%) minmax(0, 1fr);
   grid-template-areas:
     "weather monthly daily vehicles"
     "social  social  social vehicles";
@@ -206,24 +206,6 @@ main.tv {
   overflow-wrap: anywhere;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#wind {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  white-space: normal;
-}
-
-#wind .wind-direction {
-  font-size: clamp(13px, 1.02vw, 21px);
-  line-height: 1;
-}
-
-#wind .wind-speed {
-  color: #dcefff;
-  font-size: clamp(11px, .85vw, 17px);
-  line-height: 1;
 }
 
 .weather-box span {
@@ -470,7 +452,7 @@ ul {
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, .90fr) minmax(0, 1.10fr);
-  grid-template-rows: minmax(0, 1fr) clamp(58px, 7.2vh, 78px);
+  grid-template-rows: minmax(0, 1fr) clamp(70px, 9vh, 94px);
   grid-template-areas:
     "infos photo"
     "twitter twitter";
@@ -518,16 +500,12 @@ ul {
   height: 100%;
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(35,47,61,.94), rgba(18,27,38,.94));
-  display: flex;
-  flex-direction: column;
-  padding: clamp(7px, .9vh, 11px) clamp(9px, .8vw, 14px);
+  padding: clamp(8px, 1vh, 12px) clamp(9px, .8vw, 14px);
   overflow: hidden;
 }
 
 .tag {
-  display: inline-flex;
-  align-self: flex-start;
-  width: auto;
+  display: inline-block;
   max-width: 100%;
   background: #e00000;
   color: #fff;
@@ -542,10 +520,6 @@ ul {
   text-overflow: ellipsis;
 }
 
-.info-content .tag {
-  flex: 0 0 auto;
-}
-
 .cis-info p,
 .amicale p,
 .birthday-box p {
@@ -553,11 +527,11 @@ ul {
   color: #fff;
   font-size: clamp(11px, .95vw, 19px);
   line-height: 1.15;
-  flex: 1;
   font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  overflow-wrap: anywhere;
-  white-space: pre-line;
 }
 
 .photo {
@@ -865,24 +839,13 @@ hr {
   padding: 8px 10px;
 }
 
-.char-counter {
-  float: right;
-  color: #8fa6bd;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.char-counter-warning {
-  color: #ffcc00;
-}
-
 @media (min-width: 1101px) and (max-height: 820px) {
   .screen {
     grid-template-rows: clamp(76px, 10vh, 96px) minmax(0, 1fr) clamp(30px, 3.8vh, 40px);
   }
 
   main.tv {
-    grid-template-rows: minmax(185px, 32%) minmax(0, 1fr);
+    grid-template-rows: minmax(155px, 25%) minmax(0, 1fr);
     gap: 7px;
     padding-top: 7px;
     padding-bottom: 6px;
@@ -911,12 +874,12 @@ hr {
   }
 
   .social-layout {
-    grid-template-rows: minmax(0, 1fr) clamp(52px, 7vh, 66px);
+    grid-template-rows: minmax(0, 1fr) clamp(62px, 8.5vh, 78px);
   }
 
   .info-content {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 7px;
+    padding-bottom: 7px;
   }
 }
 

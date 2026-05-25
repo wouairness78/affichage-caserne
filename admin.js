@@ -1,30 +1,4 @@
 let currentRole = "user";
-
-const CIS_INFO_MAX_LENGTH = 180;
-
-function updateCisInfoCounter() {
-  const input = document.getElementById("cisInfoInput");
-  const counter = document.getElementById("cisInfoCounter");
-
-  if (!input || !counter) return;
-
-  if (input.value.length > CIS_INFO_MAX_LENGTH) {
-    input.value = input.value.slice(0, CIS_INFO_MAX_LENGTH);
-  }
-
-  counter.textContent = `${input.value.length}/${CIS_INFO_MAX_LENGTH} caractères`;
-
-  counter.classList.toggle(
-    "char-counter-warning",
-    input.value.length >= CIS_INFO_MAX_LENGTH - 20
-  );
-}
-
-document.addEventListener("input", (event) => {
-  if (event.target && event.target.id === "cisInfoInput") {
-    updateCisInfoCounter();
-  }
-});
 async function checkSession() {
 
   const { data } =
@@ -135,8 +109,7 @@ async function loadAdmin() {
 
   if (settings) {
     document.getElementById("amicaleInput").value = settings.amicale || "";
-    document.getElementById("cisInfoInput").value = (settings.cis_info || "").slice(0, CIS_INFO_MAX_LENGTH);
-    updateCisInfoCounter();
+    document.getElementById("cisInfoInput").value = settings.cis_info || "";
     document.getElementById("tickerInput").value = settings.ticker || "";
   }
 
@@ -294,7 +267,7 @@ async function saveSettings() {
   const update = {
 
     cis_info:
-      document.getElementById("cisInfoInput").value.trim().slice(0, CIS_INFO_MAX_LENGTH),
+      document.getElementById("cisInfoInput").value,
 
     amicale:
       document.getElementById("amicaleInput").value,
