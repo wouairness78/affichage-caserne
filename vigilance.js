@@ -34,13 +34,13 @@ exports.handler = async function () {
         "Content-Type": "application/json"
       },
 
-      body: JSON.stringify({
-        vigilance,
-        temperature: today.tmax,
-        wind: today.wind10m,
-        wind_direction: today.dirwind10m ?? today.wind_direction ?? today.winddir ?? null,
-        weather: today.weather
-      })
+body: JSON.stringify({
+  vigilance,
+  temperature: today.tmax,
+  wind: today.wind10m,
+  wind_direction: today.dirwind10m,
+  weather: today.weather
+})
     };
 
   } catch (error) {
