@@ -439,7 +439,10 @@ async function loadVigilance() {
           ? `${Math.round(data.wind)} km/h`
           : "--";
 
-      wind.innerHTML = `${direction}<br>${speed}`;
+      wind.innerHTML = `
+        <span class="wind-direction">${direction}</span>
+        <span class="wind-speed">${speed}</span>
+      `;
     }
 
     if (forecast) {

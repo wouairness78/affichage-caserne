@@ -179,8 +179,9 @@ main.tv {
   min-height: 0;
   display: grid;
   grid-template-columns: clamp(28px, 2.4vw, 38px) minmax(0, 1fr);
-  grid-template-rows: 1fr auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   column-gap: clamp(7px, .8vw, 10px);
+  row-gap: 2px;
   align-items: center;
   text-align: left;
   padding: clamp(6px, .9vh, 10px) clamp(8px, .8vw, 12px);
@@ -208,14 +209,45 @@ main.tv {
   text-overflow: ellipsis;
 }
 
-.weather-box span {
+.weather-box strong#wind {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+  gap: 1px;
+  line-height: .92;
+  overflow: hidden;
+}
+
+.wind-direction {
+  display: block;
+  font-size: clamp(13px, .95vw, 18px);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wind-speed {
+  display: block;
+  font-size: clamp(14px, 1.08vw, 22px);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.weather-box > span {
   min-width: 0;
   color: #fff;
-  font-size: clamp(10px, .72vw, 13px);
+  font-size: clamp(9px, .66vw, 12px);
+  line-height: 1;
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  align-self: end;
 }
 
 ul {
