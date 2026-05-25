@@ -525,7 +525,9 @@ ul {
 }
 
 .tag {
-  display: inline-block;
+  display: inline-flex;
+  align-self: flex-start;
+  width: auto;
   max-width: 100%;
   background: #e00000;
   color: #fff;
@@ -540,6 +542,10 @@ ul {
   text-overflow: ellipsis;
 }
 
+.info-content .tag {
+  flex: 0 0 auto;
+}
+
 .cis-info p,
 .amicale p,
 .birthday-box p {
@@ -551,6 +557,7 @@ ul {
   font-weight: 500;
   overflow: hidden;
   overflow-wrap: anywhere;
+  white-space: pre-line;
 }
 
 .photo {
