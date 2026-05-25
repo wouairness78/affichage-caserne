@@ -1,79 +1,4 @@
 let currentRole = "user";
-const TEXT_LIMIT = 180;
-
-function toDatetimeLocal(value) {
-  if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
-  const offset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-}
-
-function fromDatetimeLocal(value) {
-  if (!value) return null;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toISOString();
-}
-
-function setTextValue(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.value = value || "";
-}
-
-function updateCounter(textareaId, counterId, previewId, fallbackText) {
-  const textarea = document.getElementById(textareaId);
-  const counter = document.getElementById(counterId);
-  const preview = document.getElementById(previewId);
-
-  if (!textarea) return;
-
-  if (textarea.value.length > TEXT_LIMIT) {
-    textarea.value = textarea.value.slice(0, TEXT_LIMIT);
-  }
-
-  const length = textarea.value.length;
-
-  if (counter) {
-    counter.textContent = `${length} / ${TEXT_LIMIT}`;
-    counter.classList.remove("counter-ok", "counter-warning", "counter-danger");
-
-    if (length < 130) counter.classList.add("counter-ok");
-    else if (length < 165) counter.classList.add("counter-warning");
-    else counter.classList.add("counter-danger");
-  }
-
-  if (preview) {
-    preview.textContent = textarea.value.trim() || fallbackText;
-  }
-}
-
-function refreshTextTools() {
-  updateCounter(
-    "cisInfoInput",
-    "cisInfoCounter",
-    "previewCisInfo",
-    "Informations internes du centre."
-  );
-
-  updateCounter(
-    "amicaleInput",
-    "amicaleCounter",
-    "previewAmicale",
-    "Informations de l’amicale."
-  );
-}
-
-function initTextTools() {
-  ["cisInfoInput", "amicaleInput"].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.setAttribute("maxlength", String(TEXT_LIMIT));
-    el.addEventListener("input", refreshTextTools);
-  });
-  refreshTextTools();
-}
-
 async function checkSession() {
 
   const { data } =
@@ -94,7 +19,6 @@ async function checkSession() {
     applyRolePermissions();
 
     loadAdmin();
-    initTextTools();
   }
 }
 async function loadUserRole(userId) {
@@ -152,7 +76,6 @@ async function login() {
   // chargement données
 
   loadAdmin();
-  initTextTools();
 }
 function applyRolePermissions() {
   const adminOnlySections = document.querySelectorAll(".admin-only");
@@ -185,14 +108,9 @@ async function loadAdmin() {
     .single();
 
   if (settings) {
-    setTextValue("amicaleInput", settings.amicale || "");
-    setTextValue("cisInfoInput", settings.cis_info || "");
-    setTextValue("tickerInput", settings.ticker || "");
-    setTextValue("cisInfoStart", toDatetimeLocal(settings.cis_info_start));
-    setTextValue("cisInfoEnd", toDatetimeLocal(settings.cis_info_end));
-    setTextValue("amicaleStart", toDatetimeLocal(settings.amicale_start));
-    setTextValue("amicaleEnd", toDatetimeLocal(settings.amicale_end));
-    refreshTextTools();
+    document.getElementById("amicaleInput").value = settings.amicale || "";
+    document.getElementById("cisInfoInput").value = settings.cis_info || "";
+    document.getElementById("tickerInput").value = settings.ticker || "";
   }
 
   const { data: vehicles } = await supabaseClient
@@ -346,27 +264,22 @@ const dayLabel =
 
 async function saveSettings() {
 
-  const cisInfoInput = document.getElementById("cisInfoInput");
-  const amicaleInput = document.getElementById("amicaleInput");
-  const tickerInput = document.getElementById("tickerInput");
-
-  refreshTextTools();
-
   const update = {
-    cis_info: cisInfoInput ? cisInfoInput.value.slice(0, TEXT_LIMIT) : "",
-    amicale: amicaleInput ? amicaleInput.value.slice(0, TEXT_LIMIT) : "",
-    cis_info_start: fromDatetimeLocal(document.getElementById("cisInfoStart")?.value),
-    cis_info_end: fromDatetimeLocal(document.getElementById("cisInfoEnd")?.value),
-    amicale_start: fromDatetimeLocal(document.getElementById("amicaleStart")?.value),
-    amicale_end: fromDatetimeLocal(document.getElementById("amicaleEnd")?.value),
-    updated_at: new Date().toISOString()
-  };
 
-  // Le bandeau défilant reste réservé administrateur.
-  // Un utilisateur simple ne modifie que Infos CIS et Amicale.
-  if (currentRole === "admin" && tickerInput) {
-    update.ticker = tickerInput.value;
-  }
+    cis_info:
+      document.getElementById("cisInfoInput").value,
+
+    amicale:
+      document.getElementById("amicaleInput").value,
+
+    ticker:
+      document.getElementById("tickerInput").value,
+
+
+    updated_at:
+      new Date().toISOString()
+
+  };
 
   const { error } = await supabaseClient
     .from("settings")
@@ -374,7 +287,9 @@ async function saveSettings() {
     .eq("id", 1);
 
   if (error) {
-    alert("Erreur : " + error.message + "\n\nSi l'erreur indique une colonne manquante, exécute le nouveau schema-supabase.sql dans Supabase.");
+
+    alert("Erreur : " + error.message);
+
     return;
   }
 
@@ -659,8 +574,6 @@ document.getElementById("alertTitleInput").value =
 
 document.getElementById("alertMessageInput").value =
   alert.message || "";
-
-setTextValue("quickAlertMessage", alert.message || "");
 }
 
 async function saveAlertMode() {
@@ -760,58 +673,4 @@ async function deleteBirthday(id) {
 
   loadBirthdaysAdmin();
 }
-
-async function activateQuickAlert() {
-  if (currentRole !== "admin") {
-    alert("Accès réservé administrateur");
-    return;
-  }
-
-  const message = document.getElementById("quickAlertMessage")?.value.trim();
-
-  if (!message) {
-    alert("Indique un message d'urgence");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("alert_mode")
-    .update({
-      enabled: true,
-      title: "URGENCE",
-      message,
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", 1);
-
-  if (error) {
-    alert("Erreur alerte : " + error.message);
-    return;
-  }
-
-  alert("Urgence activée sur la TV");
-}
-
-async function disableQuickAlert() {
-  if (currentRole !== "admin") {
-    alert("Accès réservé administrateur");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("alert_mode")
-    .update({
-      enabled: false,
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", 1);
-
-  if (error) {
-    alert("Erreur alerte : " + error.message);
-    return;
-  }
-
-  alert("Urgence désactivée");
-}
-
 checkSession();
