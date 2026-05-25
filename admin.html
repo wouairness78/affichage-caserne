@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Affichage CIS</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 
   <link rel="stylesheet" href="style.css">
 
@@ -89,15 +90,42 @@
 
         <div class="field">
           <label>Infos CIS</label>
-          <textarea id="cisInfoInput" rows="4"></textarea>
+          <textarea id="cisInfoInput" rows="4" maxlength="180" placeholder="Information visible sur l'écran TV"></textarea>
+          <div class="char-counter" id="cisInfoCounter">0 / 180</div>
+        </div>
+
+        <div class="field schedule-options">
+          <label>Programmation Infos CIS <small class="muted-inline">(optionnel)</small></label>
+          <div class="row">
+            <input id="cisInfoStart" type="datetime-local" title="Début d'affichage">
+            <input id="cisInfoEnd" type="datetime-local" title="Fin d'affichage">
+          </div>
         </div>
 
         <div class="field">
           <label>Espace amicale</label>
+          <textarea id="amicaleInput" rows="4" maxlength="180" placeholder="Information de l'amicale visible sur l'écran TV"></textarea>
+          <div class="char-counter" id="amicaleCounter">0 / 180</div>
+        </div>
 
-          <textarea
-            id="amicaleInput"
-            rows="4"></textarea>
+        <div class="field schedule-options">
+          <label>Programmation Amicale <small class="muted-inline">(optionnel)</small></label>
+          <div class="row">
+            <input id="amicaleStart" type="datetime-local" title="Début d'affichage">
+            <input id="amicaleEnd" type="datetime-local" title="Fin d'affichage">
+          </div>
+        </div>
+
+        <div class="admin-preview">
+          <h3>Prévisualisation TV</h3>
+          <div class="preview-line">
+            <span class="tag">Infos CIS</span>
+            <p id="previewCisInfo">Informations internes du centre.</p>
+          </div>
+          <div class="preview-line">
+            <span class="tag">Amicale</span>
+            <p id="previewAmicale">Informations de l’amicale.</p>
+          </div>
         </div>
 
 
@@ -114,6 +142,22 @@
         </button>
 
       </section>
+
+<section class="form-card admin-only emergency-card">
+  <h2>Mode urgence rapide</h2>
+
+  <p class="muted">Affiche immédiatement un message plein écran sur la TV.</p>
+
+  <div class="field">
+    <label>Message rapide</label>
+    <textarea id="quickAlertMessage" rows="3" placeholder="Ex : Départ opérationnel - consultez le chef d'agrès"></textarea>
+  </div>
+
+  <div class="row">
+    <button class="btn" onclick="activateQuickAlert()">Activer urgence</button>
+    <button class="btn secondary" onclick="disableQuickAlert()">Désactiver</button>
+  </div>
+</section>
 
 <!-- VEHICULES -->
 

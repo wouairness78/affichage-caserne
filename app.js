@@ -29,6 +29,36 @@ function updateClock() {
     });
 }
 
+
+function applyAutoTheme() {
+  const hour = new Date().getHours();
+  const isNight = hour >= 20 || hour < 7;
+  document.body.classList.toggle("theme-night", isNight);
+  document.body.classList.toggle("theme-day", !isNight);
+}
+
+function isMessageActive(startValue, endValue) {
+  const now = Date.now();
+
+  if (startValue) {
+    const start = new Date(startValue).getTime();
+    if (Number.isFinite(start) && now < start) return false;
+  }
+
+  if (endValue) {
+    const end = new Date(endValue).getTime();
+    if (Number.isFinite(end) && now > end) return false;
+  }
+
+  return true;
+}
+
+function setTextPreserveLines(id, text) {
+  const element = document.getElementById(id);
+  if (!element) return;
+  element.textContent = text;
+}
+
 // Toute la météo affichée vient uniquement de la fonction Netlify vigilance.js
 // Cette fonction interroge Météo Concept avec le code INSEE 78537
 // correspondant à Saint-Arnoult-en-Yvelines.
@@ -85,11 +115,22 @@ async function loadData() {
 
     settings = settings || fallback;
 
-    document.getElementById("amicaleText").textContent =
-      settings.amicale || fallback.amicale;
-	  
-	 document.getElementById("cisInfoText").textContent =
-      settings.cis_info || "Informations internes du centre.";
+    const cisInfoActive = isMessageActive(settings.cis_info_start, settings.cis_info_end);
+    const amicaleActive = isMessageActive(settings.amicale_start, settings.amicale_end);
+
+    setTextPreserveLines(
+      "amicaleText",
+      amicaleActive && settings.amicale
+        ? settings.amicale
+        : fallback.amicale
+    );
+
+    setTextPreserveLines(
+      "cisInfoText",
+      cisInfoActive && settings.cis_info
+        ? settings.cis_info
+        : "Informations internes du centre."
+    );
 
     document.getElementById("ticker").textContent =
       settings.ticker || fallback.ticker;
@@ -189,7 +230,7 @@ const todayTasks = (dailySchedule || [])
   })
   .sort((a, b) => parseTimeToMinutes(a.time_label) - parseTimeToMinutes(b.time_label));
 
-const items = todayTasks.map(item => {
+const items = todayTasks.map((item, index) => {
 
   const taskClass =
     item.weekdays === "all"
@@ -197,12 +238,13 @@ const items = todayTasks.map(item => {
       : "daily-time-specific";
 
   const dayLabel = item.weekdays === "all" ? "Tous les jours" : "Jour spécifique";
+  const nextClass = index === 0 ? " daily-item-next" : "";
 
   return `
-    <div class="daily-item">
+    <div class="daily-item${nextClass}">
       <strong class="${taskClass}">${item.time_label}</strong>
       <span>${item.title}</span>
-      <small>${dayLabel}</small>
+      <small>${index === 0 ? "Prochaine" : dayLabel}</small>
     </div>
   `;
 }).join("");
@@ -446,8 +488,18 @@ async function loadVigilance() {
     }
 
     if (forecast) {
-      forecast.textContent =
-        data.weather_label || getWeatherLabel(data.weather);
+      const label = data.weather_label || getWeatherLabel(data.weather);
+      const rain = data.rain_probability !== undefined && data.rain_probability !== null
+        ? `${Math.round(data.rain_probability)}% pluie`
+        : "";
+      const gust = data.gust !== undefined && data.gust !== null
+        ? `Rafales ${Math.round(data.gust)} km/h`
+        : "";
+
+      forecast.innerHTML = `
+        <span class="forecast-main">${label}</span>
+        <span class="forecast-details">${[rain, gust].filter(Boolean).join(" · ")}</span>
+      `;
     }
 
     const vigilance = data.vigilance || "Vert";
@@ -481,8 +533,10 @@ async function loadVigilance() {
   }
 }
 updateClock();
+applyAutoTheme();
 
 setInterval(updateClock, 1000);
+setInterval(applyAutoTheme, 60000);
 loadTwitterFeed();
 loadVigilance();
 

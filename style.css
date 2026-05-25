@@ -987,3 +987,111 @@ hr {
     min-height: 82px;
   }
 }
+
+/* Améliorations admin : compteur, prévisualisation et urgence */
+.muted-inline {
+  color: #8fa4bb;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.char-counter {
+  justify-self: end;
+  font-size: 12px;
+  font-weight: 900;
+  margin-top: -2px;
+}
+
+.counter-ok { color: #4cff8c; }
+.counter-warning { color: #ffcc00; }
+.counter-danger { color: #ff5a5a; }
+
+.admin-preview {
+  margin: 12px 0 14px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  background: #0f1720;
+}
+
+.admin-preview h3 {
+  margin-bottom: 10px;
+  color: #ffcc00;
+}
+
+.preview-line {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(35,47,61,.94), rgba(18,27,38,.94));
+}
+
+.preview-line .tag {
+  width: max-content;
+  max-width: 100%;
+}
+
+.preview-line p {
+  white-space: pre-line;
+  margin-top: 6px;
+  line-height: 1.25;
+}
+
+.emergency-card {
+  border-color: rgba(255, 60, 60, .55);
+  box-shadow: 0 0 22px rgba(255,0,0,.08);
+}
+
+.schedule-options .row input {
+  flex: 1;
+}
+
+/* Améliorations TV : retours à la ligne, météo enrichie, thème jour/nuit */
+.cis-info p,
+.amicale p,
+.birthday-box p {
+  white-space: pre-line;
+}
+
+.forecast-main,
+.forecast-details {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.forecast-main {
+  font-size: clamp(13px, .98vw, 19px);
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.forecast-details {
+  margin-top: 2px;
+  color: #c7d8e8;
+  font-size: clamp(8px, .62vw, 11px);
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.theme-day .screen {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(80, 105, 130, 0.32), transparent 34%),
+    linear-gradient(180deg, #0b1722 0%, #071018 58%, #030609 100%);
+}
+
+.theme-night .screen {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(35, 55, 82, 0.22), transparent 34%),
+    linear-gradient(180deg, #040912 0%, #03060b 58%, #010204 100%);
+}
+
+.theme-night .card {
+  background: linear-gradient(180deg, rgba(11, 20, 31, 0.97), rgba(5, 10, 17, 0.97));
+}
+
+.theme-night header,
+.theme-night footer {
+  filter: brightness(.82);
+}
